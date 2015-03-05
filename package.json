@@ -19,7 +19,9 @@
     "url": "https://github.com/manufacturedba/healthyharry/issues"
   },
   "homepage": "https://github.com/manufacturedba/healthyharry",
-  "dependencies": {},
+  "dependencies": {
+    "phaser": "~2.2.2"
+  },
   "devDependencies": {
     "grunt-notify": "~0.4.1",
     "grunt": "~0.4.5",

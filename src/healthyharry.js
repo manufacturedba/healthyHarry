@@ -13,6 +13,3 @@ var Game = function(height, width, element){
         // pass
     }
 };
-
-// Is there a better way of doing this?
-window.Game = Game;

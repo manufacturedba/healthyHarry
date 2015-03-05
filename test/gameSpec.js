@@ -1,7 +1,11 @@
 describe("Game", function(){
     "use strict";
 
-    var gameFn = window.Game;
+    var gameFn = Game;
+
+    it("should have Phaser access", function(){
+        expect(Phaser).not.beUndefined;
+    });
 
     it("should exist", function(){
         expect(typeof gameFn).toBe("function");
