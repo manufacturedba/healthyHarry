@@ -14,12 +14,23 @@ module.exports = function(grunt){
             dev: {
                 configFile: 'karma.conf.js'
             }
+        },
+        connect: {
+            server: {
+                options: {
+                    // Don't care. Just keep it all browserable
+                    keepalive: true,
+                    livereload: true,
+                    open: true
+                }
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-notify');
     grunt.loadNpmTasks('grunt-bumpup');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
