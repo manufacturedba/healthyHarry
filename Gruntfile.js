@@ -13,6 +13,11 @@ module.exports = function(grunt){
         karma: {
             dev: {
                 configFile: 'karma.conf.js'
+            },
+            watch: {
+                configFile: 'karma.conf.js',
+                background: true,
+                singleRun: false
             }
         },
         connect: {
@@ -27,12 +32,21 @@ module.exports = function(grunt){
         },
         watch: {
             dev: {
-                files: ['src/**/*.js', './index.html'],
+                files: ['src/**/*.js'],
                 tasks: ['jshint', 'uglify'],
                 options: {
-                    reload: true,
                     livereload: true
                 }
+            },
+            html: {
+                files: ['./index.html'],
+                options: {
+                    livereload: true
+                }
+            },
+            test: {
+                files: ['test/**/*.js'],
+                tasks: ['karma:watch:run']
             }
         }
     });
@@ -46,7 +60,7 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-contrib-jshint');
 
     grunt.registerTask('serve', ['connect']);
-    grunt.registerTask('dev', ['watch']);
+    grunt.registerTask('dev', ['karma:watch', 'watch']);
     grunt.registerTask('test', ['karma:dev']);
     grunt.registerTask('min', ['jshint', 'uglify']);
 };
