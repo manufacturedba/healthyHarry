@@ -6,7 +6,11 @@ module.exports = function(grunt){
         uglify: {
             game: {
                 files: {
-                    'healthyharry.min.js': ['src/**/*.js']
+                    'healthyharry.min.js': 'build/healthyharry.js'
+                },
+                options: {
+                    sourceMap: true,
+                    compress: false
                 }
             }
         },
@@ -30,10 +34,32 @@ module.exports = function(grunt){
                 }
             }
         },
+        copy: {
+            // Browserify hack. Thanks @woutercommandeur
+            // https://github.com/photonstorm/phaser/issues/1186
+            phaser: {
+                files: [{
+                    expand: false,
+                    flatten: true,
+                    src: ['node_modules/phaser/dist/phaser.min.js'],
+                    dest: 'build/phaser.min.js'
+                }]
+            }
+        },
+        browserify: {
+            dist: {
+                files: {
+                    'build/healthyharry.js': ['src/healthyharry.js']
+                },
+                options: {
+                    transform: ["browserify-shim"]
+                }
+            }
+        },
         watch: {
             dev: {
                 files: ['src/**/*.js'],
-                tasks: ['jshint', 'uglify'],
+                tasks: ['jshint', 'copy', 'browserify', 'uglify'],
                 options: {
                     livereload: true
                 }
@@ -54,6 +80,8 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-notify');
     grunt.loadNpmTasks('grunt-bumpup');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-uglify');
