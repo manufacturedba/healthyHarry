@@ -1,11 +1,16 @@
 module.exports = function(config) {
     config.set({
-        frameworks: ['jasmine'],
+        frameworks: ['browserify', 'jasmine'],
         files: [
-            'node_modules/phaser/build/phaser.min.js',
-            'src/**/*.js',
+            'src/healthyharry.js',
             'test/**/*.js'
         ],
+        preprocessors: {
+            'test/**/*.js': ['browserify']
+        },
+        browserify: {
+            transform: ["browserify-shim"]
+        },
         browsers: ['Chrome']
     });
 };

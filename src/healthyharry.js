@@ -1,28 +1,23 @@
 var Game = function(height, width, element){
+    var Phaser = require('Phaser');
 
-    var game = new Phaser.Game(width, height, Phaser.AUTO, element || '', {
-        preload: preload,
-        create: create,
-        update: update
-    });
+    var states = {
+        preload: require('./states/preloadState'),
+        create: require('./states/createState'),
+        update: require('./states/updateState')
+    };
 
-    var cursors, sprite;
-
-    function preload(){
-        game.load.atlasJSONHash('atlas', 'static/spritesheet.png', 'static/sprites.json');
-    }
-
-    function create(){
-        sprite = game.add.sprite(0, height - 50, 'atlas', 'man1');
+    var game = new Phaser.Game(width, height, Phaser.AUTO, element || '');
+    game.sprites = [];
+    game.sprites.add = function(x, y, text, frame){
+        var sprite = game.add.sprite(x, y, text, frame);
         game.physics.enable(sprite, Phaser.Physics.ARCADE);
         sprite.height = 50;
         sprite.width = 50;
-        cursors = game.input.keyboard.createCursorKeys();
-    }
-
-    function update(){
-        sprite.body.velocity.setTo(0, 0);
-        if(cursors.left.isDown) sprite.body.velocity.x = -50;
-        if(cursors.right.isDown) sprite.body.velocity.x = 50;
-    }
+        game.sprites.push(sprite);
+    };
+    // Add states later, so we can modify game before running
+    game.state.add('state', states, true);
 };
+
+window.Game = Game;
