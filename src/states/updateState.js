@@ -1,5 +1,5 @@
-module.exports = function update(){
-    sprite.body.velocity.setTo(0, 0);
-    if(cursors.left.isDown) sprite.body.velocity.x = -50;
-    if(cursors.right.isDown) sprite.body.velocity.x = 50;
+module.exports = function update(game){
+    game.sprites[0].body.velocity.setTo(0, 0);
+    if(game.cursors.left.isDown) game.sprites[0].body.velocity.x = -100;
+    if(game.cursors.right.isDown) game.sprites[0].body.velocity.x = 100;
 };
