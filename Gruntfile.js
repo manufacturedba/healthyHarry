@@ -6,7 +6,7 @@ module.exports = function(grunt){
         uglify: {
             game: {
                 files: {
-                    'healthyharry.min.js': 'build/healthyharry.js'
+                    'healthyharry.min.js': 'healthyharry.min.js'
                 },
                 options: {
                     sourceMap: true,
@@ -49,17 +49,20 @@ module.exports = function(grunt){
         browserify: {
             dist: {
                 files: {
-                    'build/healthyharry.js': ['src/healthyharry.js']
+                    'healthyharry.min.js': ['src/healthyharry.js']
                 },
                 options: {
-                    transform: ["browserify-shim"]
+                    transform: ["browserify-shim"],
+                    browserifyOptions: {
+                        debug: true
+                    }
                 }
             }
         },
         watch: {
             dev: {
                 files: ['src/**/*.js'],
-                tasks: ['jshint', 'copy', 'browserify', 'uglify'],
+                tasks: ['build'],
                 options: {
                     livereload: true
                 }
@@ -90,5 +93,5 @@ module.exports = function(grunt){
     grunt.registerTask('serve', ['connect']);
     grunt.registerTask('dev', ['karma:watch', 'watch']);
     grunt.registerTask('test', ['karma:dev']);
-    grunt.registerTask('min', ['jshint', 'uglify']);
+    grunt.registerTask('build', ['jshint', 'copy', 'browserify', 'uglify']);
 };

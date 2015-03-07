@@ -20,11 +20,11 @@
   },
   "homepage": "https://github.com/manufacturedba/healthyharry",
   "browser": {
-    "phaser": "./build/phaser.min.js"
+    "Phaser": "./build/phaser.min.js"
   },
   "browserify-shim": {
-    "phaser": {
-      "exports": "phaser"
+    "Phaser": {
+      "exports": "Phaser"
     }
   },
   "dependencies": {
