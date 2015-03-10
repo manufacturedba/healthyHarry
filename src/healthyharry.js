@@ -1,15 +1,23 @@
 var Game = function(height, width, element){
+    var Phaser = require('Phaser');
 
-    var game = new Phaser.Game(height, width, Phaser.AUTO, element | '', {
-        preload: preload,
-        create: create
-    });
+    var states = {
+        preload: require('./states/preloadState'),
+        create: require('./states/createState'),
+        update: require('./states/updateState')
+    };
 
-    function preload(){
-        // pass
-    }
-
-    function create(){
-        // pass
-    }
+    var game = new Phaser.Game(width, height, Phaser.AUTO, element || '');
+    game.sprites = [];
+    game.sprites.add = function(x, y, text, frame){
+        var sprite = game.add.sprite(x, y, text, frame);
+        game.physics.enable(sprite, Phaser.Physics.ARCADE);
+        sprite.height = 50;
+        sprite.width = 50;
+        game.sprites.push(sprite);
+    };
+    // Add states later, so we can modify game before running
+    game.state.add('state', states, true);
 };
+
+window.Game = Game;
