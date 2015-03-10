@@ -1,3 +1,3 @@
 describe("Update State", function(){
-    "use strict";
+    var updateState = require('../src/states/updateState');
 })

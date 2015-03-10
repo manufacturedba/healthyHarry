@@ -16,6 +16,7 @@ var Game = function(height, width, element){
         sprite.width = 50;
         game.sprites.push(sprite);
     };
+    
     // Add states later, so we can modify game before running
     game.state.add('state', states, true);
 };

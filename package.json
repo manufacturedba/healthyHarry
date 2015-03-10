@@ -46,6 +46,8 @@
     "grunt-browserify": "~3.5.0",
     "browserify-shim": "~3.8.3",
     "grunt-contrib-copy": "~0.8.0",
-    "karma-chrome-launcher": "~0.1.7"
+    "karma-chrome-launcher": "~0.1.7",
+    "sinon": "~1.13.0",
+    "brfs": "~1.4.0"
   }
 }
