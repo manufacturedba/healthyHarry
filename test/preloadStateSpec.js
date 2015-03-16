@@ -1,3 +1,3 @@
 describe("Preload State", function(){
-    "use strict";
+    var preloadState = require('../src/states/preloadState');
 })
