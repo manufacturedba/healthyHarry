@@ -1,3 +1,10 @@
+if(!!window.Minilog){
+    window.log = Minilog('game');
+    Minilog.enable();
+} else {
+    console.log('Where the hell is minilog?');
+}
+
 var Game = function(height, width, element){
     var Phaser = require('Phaser');
     var spriteHeight = 10;

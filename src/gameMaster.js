@@ -1,5 +1,6 @@
-var SpriteOptions = function(x, y, height, width){
+var SpriteOptions = function(x, y, height, width, velocity){
     var self = this;
+    self.velocity = velocity || 0;
     self.x = x || 0;
     self.y = y || 0;
     self.height = height || 0;
@@ -22,18 +23,12 @@ function GameMaster(game){
         //noop
     }
 
-    // Mock
-    var log = {
-        info: console.log,
-        debug: console.log,
-        error: console.log
-    };
-
     var physics = Phaser.Physics.ARCADE;
     var playerOpts = new SpriteOptions(100, 0, 50, 50);
-    var spriteOpts = new SpriteOptions();
+    var spriteOpts = new SpriteOptions(100, 0, 25, 25, -100);
     self.spawn = noop;
     var sprites = [];
+    var ground;
 
     var addSprite = function(x, y, text, frame, collide){
         var sprite = game.add.sprite(x, y, text, frame);
@@ -57,9 +52,15 @@ function GameMaster(game){
     };
 
     self.spawnPlayer = function(){
-        var sprite = addSprite(playerOpts.x, game.height - playerOpts.y, 'atlas', 'man1', true);
+        ground = addSprite(0, game.height - 50, 'atlas', 'man1', true);
+        ground.width = game.width;
+        ground.height = 50;
+        ground.body.immovable = true;
+
+        var sprite = addSprite(playerOpts.x, game.height - playerOpts.y - 200, 'atlas', 'man1', true);
         if(playerOpts.height) sprite.height = playerOpts.height;
         if(playerOpts.width) sprite.width = playerOpts.width;
+        sprite.body.gravity.y = 600;
         var reset = {
             x: playerOpts.x,
             y: game.height - playerOpts.y
@@ -74,19 +75,46 @@ function GameMaster(game){
     };
 
     self.createSpawner = function(group){
-        self.spawn = function(){
-            var sprite = addSprite(game.width + 100, game.height - spriteOpts.height, 'atlas', 'man1', false);
-            sprite.body.allowGravity = false;
-            sprite.body.velocity.x = -100;
-            if(group) group.add(sprite);
+        self.sprite = {
+            spawn: function(){
+                var sprite = addSprite(game.width + spriteOpts.x, game.height - spriteOpts.height - ground.height, 'atlas', 'man1', false);
+                sprite.body.allowGravity = false;
+                sprite.body.velocity.x = spriteOpts.velocity;
+                if(group) group.add(sprite);
+            },
+            setVelocity: function(velocity){
+                spriteOpts.velocity = velocity;
+            }
         };
     };
 
     function createPlayer(playerSprite, reset){
-        playerSprite.jump = function(){
-            playerSprite.body.velocity.y = -250;
+        var jumptimer = 0;
+        playerSprite.jump = function(cursors){
+            function update() {
+                if (cursors.up.isDown && playerSprite.body.touching.down) {
+                    //player is on the ground, so he is allowed to start a jump
+                    jumptimer = 1;
+                    playerSprite.body.velocity.y = -250;
+                } else if (cursors.up.isDown && (jumptimer !== 0)) {
+                    //player is no longer on the ground, but is still holding the jump key
+                    if (jumptimer > 10) {
+                        // player has been holding jump for over 30 frames, it's time to stop him
+                        jumptimer = 0;
+                    } else {
+                        // player is allowed to jump higher (not yet 30 frames of jumping)
+                        jumptimer++;
+                        playerSprite.body.velocity.y = -250;
+                    }
+                } else if (jumptimer !== 0) {
+                    //reset jumptimer since the player is no longer holding the jump key
+                    jumptimer = 0;
+                }
+            }
+            update();
         };
         playerSprite.reset = function(){
+            game.physics.arcade.collide(playerSprite, ground);
             playerSprite.x = reset.x;
         };
         return playerSprite;

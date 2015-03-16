@@ -6,16 +6,12 @@ module.exports = function update(game){
     gm.checkCollisions();
     gm.player.reset();
 
-    if(game.cursors.up.isDown) {
-        if(game.time.now > nextJump){
-            gm.player.jump();
-            nextJump = game.time.now + 700;
-        }
-    }
+    gm.player.jump(game.cursors);
 
     if(game.time.now > spawnTime){
-        gm.spawn();
-        spawnTime = game.time.now + Math.random() * 2000 + 2000 / (1 + (game.time.now * 0.001));
+        gm.sprite.spawn();
+        spawnTime = game.time.now + (2000 * (1 + game.time.now * 0.0000001 * Math.random()));
         game.debug.text('SPAWN: ', spawnTime);
+        gm.sprite.setVelocity(-100 - game.time.now / 500 * Math.random());
     }
 };
