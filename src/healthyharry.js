@@ -1,6 +1,11 @@
 var Game = function(height, width, element){
     var Phaser = require('Phaser');
-
+    var spriteHeight = 10;
+    var playerHeight = 50;
+    function noop (){
+        //noop
+    }
+    var GameMaster = require('./gameMaster');
     var states = {
         preload: require('./states/preloadState'),
         create: require('./states/createState'),
@@ -8,16 +13,8 @@ var Game = function(height, width, element){
     };
 
     var game = new Phaser.Game(width, height, Phaser.AUTO, element || '');
-    game.sprites = [];
-    game.sprites.add = function(x, y, text, frame, collide){
-        var sprite = game.add.sprite(x, y, text, frame);
-        game.physics.enable(sprite, Phaser.Physics.ARCADE);
-        if(collide) sprite.body.collideWorldBounds = true;
-        sprite.height = 50;
-        sprite.width = 50;
-        game.sprites.push(sprite);
-        return sprite;
-    };
+
+    game.gm = new GameMaster(game);
     // Add states later, so we can modify game before running
     game.state.add('state', states, true);
 };
