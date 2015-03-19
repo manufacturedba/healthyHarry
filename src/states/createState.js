@@ -9,7 +9,8 @@ module.exports = function create(game){
     gm.createSpawner(foodGrp);
     gm.addCollision(player, foodGrp, function(source, target){
         target.kill();
-        log.debug('DEAD');
+        source.damage(1);
+        log.debug('[+] Health Left: ' + source.health);
     });
     log.debug('Finish create state');
 };

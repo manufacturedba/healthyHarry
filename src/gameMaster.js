@@ -65,6 +65,7 @@ function GameMaster(game){
             x: playerOpts.x,
             y: game.height - playerOpts.y
         };
+        sprite.health = 2;
         self.player = createPlayer(sprite, reset);
         return sprite;
     };
@@ -117,6 +118,11 @@ function GameMaster(game){
             game.physics.arcade.collide(playerSprite, ground);
             playerSprite.x = reset.x;
         };
+
+        playerSprite.events.onKilled.add(function(){
+            log.debug('[+] Harry ate too much. Game over.');
+            playerSprite.destroy();
+        });
         return playerSprite;
     }
 }
