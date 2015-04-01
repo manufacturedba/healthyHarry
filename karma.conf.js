@@ -5,6 +5,7 @@ module.exports = function(config) {
         frameworks: ['jasmine','browserify'],
         files: [
             './node_modules/sinon/lib/sinon.js',
+            'src/lib/minilog.js',
             'src/healthyharry.js',
             'test/**/*Spec.js'
         ],
@@ -14,7 +15,7 @@ module.exports = function(config) {
         },
         browserify: {
             debug: true,
-            transform: ["brfs", "browserify-shim"],
+            transform: ["browserify-shim"],
             extensions: ['.js']
         },
         browsers: ['Chrome'],

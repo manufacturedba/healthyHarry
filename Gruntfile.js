@@ -53,10 +53,7 @@ module.exports = function(grunt){
                     'healthyharry.min.js': ['src/healthyharry.js']
                 },
                 options: {
-                    transform: ["browserify-shim"],
-                    browserifyOptions: {
-                        debug: true
-                    }
+                    transform: ["browserify-shim"]
                 }
             }
         },
