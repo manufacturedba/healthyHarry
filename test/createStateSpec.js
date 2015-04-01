@@ -8,6 +8,20 @@ describe("Create State", function(){
         },
         sprites: {
             add: sinon.spy()
+        },
+        physics: {
+            startSystem: sinon.spy(),
+            arcade: {
+                gravity: {
+                    y: 0
+                }
+            }
+        },
+        gm: {
+            spawnPlayer: sinon.spy(),
+            createFoodGroup: sinon.spy(),
+            addCollision: sinon.spy(),
+            createSpawner: sinon.spy()
         }
     };
     var createState = require('../src/states/createState');

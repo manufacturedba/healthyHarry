@@ -7,8 +7,6 @@ if(!!window.Minilog){
 
 var Game = function(height, width, element){
     var Phaser = require('Phaser');
-    var spriteHeight = 10;
-    var playerHeight = 50;
     function noop (){
         //noop
     }
@@ -20,7 +18,9 @@ var Game = function(height, width, element){
     };
 
     var game = new Phaser.Game(width, height, Phaser.AUTO, element || '');
-
+    // Use only for keeping track of update state objects that cannot be included
+    // in the actual update function
+    game.resource = {};
     game.gm = new GameMaster(game);
     // Add states later, so we can modify game before running
     game.state.add('state', states, true);
